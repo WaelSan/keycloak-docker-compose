@@ -14,12 +14,12 @@ services:
       extends:
         file: keycloak-postgres.yml
         service: keycloak-postgresql
-    keycloak-nginx:
-      extends:
-        file: keycloak-nginx.yml
-        service: keycloak-nginx
-      external_links:
-        - keycloak-server:keycloak
+#    keycloak-nginx:
+#      extends:
+#        file: keycloak-nginx.yml
+#        service: keycloak-nginx
+#      external_links:
+#        - keycloak-server:keycloak
     keycloak-mailcatcher:
       image: schickling/mailcatcher
       ports:
