@@ -31,7 +31,7 @@ This is `docker-compose` setup for [Keycloak](http://www.keycloak.org/) server c
 
 ### Modifications on Keycloak configuration
 
- * in `standalone.xml`, I've modified 1 line (To use the SSL with nignx):
+ * in `standalone.xml` (To use the SSL with nignx):
    * line 410: ```<http-listener name="default" socket-binding="http" redirect-socket="https" proxy-address-forwarding="true"/>```
      * This modification tells Keycloak to pull the client’s IP address from the X-Forwarded-For header since it's behind nginx.
 
