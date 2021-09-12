@@ -1,11 +1,11 @@
-# Keycloak 2.4.0.Final - docker and docker-compose
+# Keycloak  - docker and docker-compose
 
 This is `docker-compose` setup for [Keycloak](http://www.keycloak.org/) server configured with [postgres database](https://www.postgresql.org/),  with [nginx https termination](https://www.nginx.com/) and [lightweight mail server](https://mailcatcher.me/).
 
 
 ## Used docker images
 
- * [keycloak-postgres, 2.4.0.Final](https://hub.docker.com/r/jboss/keycloak-postgres/)
+ * [openfact/keycloak-postgres](https://hub.docker.com/r/openfact/keycloak-postgres)
  * [postgres, 9.5](https://hub.docker.com/_/postgres/)
  * [nginx configuration for https termination](https://github.com/anvilresearch/nginx), borrowed from anvilreserach and customized for Keycloak
  * [mailcatcher](https://hub.docker.com/r/schickling/mailcatcher/)
@@ -20,8 +20,8 @@ This is `docker-compose` setup for [Keycloak](http://www.keycloak.org/) server c
 
 ## Testing
 
- * point your browser to [https://identity.keycloak.tom](https://identity.keycloak.tom)
- * accept insecure site, or add ./keycloak-nginx/certs/identity.keycloak.tom.cert to browser's truststore
+ * To use nignx as docker uncomment the lines of nignx on docker-compose.yml
+ * For this installation we will use nginx service (cp nginx keyclock.conf to nginx folder)
 
 ## Admin account
  * default admin account added to Keycloak is:
@@ -31,32 +31,29 @@ This is `docker-compose` setup for [Keycloak](http://www.keycloak.org/) server c
 
 ### Modifications on Keycloak configuration
 
- * in `standalone.xml`, I've modified 2 lines:
+ * in `standalone.xml`, I've modified 1 line (To use the SSL with nignx):
    * line 410: ```<http-listener name="default" socket-binding="http" redirect-socket="https" proxy-address-forwarding="true"/>```
      * This modification tells Keycloak to pull the client’s IP address from the X-Forwarded-For header since it's behind nginx.
-   * line 412: ```<host name="default-host" alias="localhost" default-web-module="keycloak-server.war">```
-     * This modification deploys Keycloak as default application on root path (context)
+
 
 
 ### Tested on
  * `cat /etc/os-release`:
     ```
-       NAME=Fedora
-       VERSION="23 (Twenty Three)"
-       ID=fedora
-       VERSION_ID=23
-       PRETTY_NAME="Fedora 23 (Twenty Three)"
-       ANSI_COLOR="0;34"
-       CPE_NAME="cpe:/o:fedoraproject:fedora:23"
-       HOME_URL="https://fedoraproject.org/"
-       BUG_REPORT_URL="https://bugzilla.redhat.com/"
-       REDHAT_BUGZILLA_PRODUCT="Fedora"
-       REDHAT_BUGZILLA_PRODUCT_VERSION=23
-       REDHAT_SUPPORT_PRODUCT="Fedora"
-       REDHAT_SUPPORT_PRODUCT_VERSION=23
-       PRIVACY_POLICY_URL=https://fedoraproject.org/wiki/Legal:PrivacyPolicy
+    NAME="Ubuntu"
+    VERSION="18.04.5 LTS (Bionic Beaver)"
+    ID=ubuntu
+    ID_LIKE=debian
+    PRETTY_NAME="Ubuntu 18.04.5 LTS"
+    VERSION_ID="18.04"
+    HOME_URL="https://www.ubuntu.com/"
+    SUPPORT_URL="https://help.ubuntu.com/"
+    BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+    PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+    VERSION_CODENAME=bionic
+    UBUNTU_CODENAME=bionic
     ```
- * `uname -a`: Linux xxx.XXX 4.8.10-100.fc23.x86_64 #1 SMP Mon Nov 21 20:37:11 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
- * `docker --version`: Docker version 1.12.3, build 6b644ec
- * `docker-compose --version`: docker-compose version 1.8.1, build 878cff1
+ * `uname -a`: Linux ns3077990 4.15.0-154-generic #161-Ubuntu SMP Fri Jul 30 13:04:17 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+ * `docker --version`: Docker version 20.10.8, build 3967b7d
+ * `docker-compose --version`: docker-compose version 1.25.4, build 8d51620a
 
